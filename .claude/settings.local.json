@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(cd *)",
+      "Bash(curl *)",
+      "WebFetch(domain:www.upwork.com)",
+      "Bash(mkdir *)",
+      "Bash(pkill -f \"vite --port 5173\")",
+      "Bash(pkill -f \"node_modules/.bin/vite\")",
+      "Bash(kill -9 10534 10535)",
+      "Bash(disown)",
+      "Bash(convert \"image_original \\(2\\)\" -crop 400x60+340+195 /home/naxxer/.claude/jobs/260d8e15/tmp/crop_test3.png)",
+      "Bash(convert \"image_original \\(6\\)\" -crop 1360x150+0+0 /home/naxxer/.claude/jobs/260d8e15/tmp/t6top.png)",
+      "Bash(convert \"image_original \\(6\\)\" -crop 400x50+340+130 /home/naxxer/.claude/jobs/260d8e15/tmp/t6b.png)",
+      "Bash(convert \"image_original \\(7\\)\" -crop 400x50+340+130 /home/naxxer/.claude/jobs/260d8e15/tmp/t7b.png)",
+      "Bash(convert \"image_original \\(8\\)\" -crop 400x60+340+195 /home/naxxer/.claude/jobs/260d8e15/tmp/t8.png)",
+      "Bash(convert \"image_original \\(4\\)\" -crop 250x20+0+0 /home/naxxer/.claude/jobs/260d8e15/tmp/t4top.png)",
+      "Bash(convert \"image_original \\(8\\)\" -crop 400x80+340+170 /home/naxxer/.claude/jobs/260d8e15/tmp/t8b.png)",
+      "Bash(mv 03-history.jpg 11-history.jpg)",
+      "Bash(mv 04-faq.jpg 12-faq.jpg)",
+      "Bash(fc-list)",
+      "Bash(convert -list font)",
+      "Read(//home/naxxer/.claude/jobs/260d8e15/tmp/**)",
+      "Bash(identify step4.png)",
+      "Bash(convert *)",
+      "Bash(identify /home/naxxer/Desktop/potfolio_nacer/public/apple-touch-icon.png)",
+      "Bash(python3 -c \"import json,sys; [print\\(f['name'], f['type']\\) for f in json.load\\(sys.stdin\\)]\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('default_branch:', d['default_branch']\\); print\\('fork:', d['fork']\\)\")",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}
