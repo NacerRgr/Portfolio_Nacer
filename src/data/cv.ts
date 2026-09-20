@@ -2,6 +2,7 @@ import ensimLogo from "../assets/logos/ensim.png";
 import ensiasLogo from "../assets/logos/ensias.jpg";
 import uaeLogo from "../assets/logos/uae.png";
 
+import stmThumbnail from "../assets/projects/stm/00-thumbnail.jpg";
 import stmArchitecture from "../assets/projects/stm/01-architecture.jpg";
 import stmSignin from "../assets/projects/stm/02-signin.jpg";
 import stmJobConfig from "../assets/projects/stm/03-job-config.jpg";
@@ -15,14 +16,17 @@ import stmReportReady from "../assets/projects/stm/10-report-ready.jpg";
 import stmHistory from "../assets/projects/stm/11-history.jpg";
 import stmFaq from "../assets/projects/stm/12-faq.jpg";
 
+import iotThumbnail from "../assets/projects/iot/00-thumbnail.jpg";
 import iotLogin from "../assets/projects/iot/01-login.jpg";
 import iotSignup from "../assets/projects/iot/02-signup.jpg";
 import iotChart from "../assets/projects/iot/03-chart.jpg";
 import iotAddDevice from "../assets/projects/iot/04-add-device.jpg";
 import iotDeviceList from "../assets/projects/iot/05-device-list.jpg";
 
+import cloudThumbnail from "../assets/projects/cloud/00-thumbnail.jpg";
 import cloudArchitecture from "../assets/projects/cloud/01-architecture.svg";
 
+import docomptiaThumbnail from "../assets/projects/docomptia/00-thumbnail.jpg";
 import docomptiaDashboard from "../assets/projects/docomptia/01-dashboard.png";
 import docomptiaInbox from "../assets/projects/docomptia/02-inbox.png";
 import docomptiaInvoices from "../assets/projects/docomptia/03-invoices.png";
@@ -96,6 +100,7 @@ export const projects: Project[] = [
     tech: ["React", "TypeScript", "Java", "Spring Boot", "Python", "FastAPI", "PostgreSQL", "Docker"],
     note: "Built by a team of three for our ENSIM capstone project in 2026. Protected by 804 frontend and 667 backend tests.",
     images: [
+      { src: docomptiaThumbnail, alt: "Docomptia project cover: SaaS invoice-to-accounting platform with OCR, accounting export and 1,471 automated tests, built with React, Spring Boot and PostgreSQL" },
       { src: docomptiaDashboard, alt: "Docomptia dashboard showing invoice processing pipeline, recent invoices, and items needing attention" },
       { src: docomptiaInbox, alt: "Inbox screen reviewing incoming invoices and their OCR processing status" },
       { src: docomptiaInvoices, alt: "Invoices list showing validation, approval, accounting, and export status per invoice" },
@@ -127,6 +132,7 @@ export const projects: Project[] = [
     tech: ["React", "Spring Boot", "MySQL", "Docker", "Gerrit"],
     note: "Used by several teams at STMicroelectronics.",
     images: [
+      { src: stmThumbnail, alt: "CI Automation Platform project cover" },
       {
         src: stmArchitecture,
         alt: "System architecture diagram of the CI automation platform, showing the front end, backend, and its integrations with Jenkins, Gerrit, LDAP, and a relational database",
@@ -160,6 +166,7 @@ export const projects: Project[] = [
     tech: ["Next.js", "React", "Spring Boot", "MongoDB", "MQTT", "AWS"],
     note: "Course project at ENSIM. Deployed on AWS (EC2, DynamoDB, VPC).",
     images: [
+      { src: iotThumbnail, alt: "Real-Time IoT Sensor Dashboard project cover" },
       { src: iotLogin, alt: "Login screen for the IoT sensor platform" },
       { src: iotSignup, alt: "Sign-up screen for the IoT sensor platform" },
       { src: iotChart, alt: "Real-time line chart of sensor temperature readings over time" },
@@ -183,6 +190,7 @@ export const projects: Project[] = [
     tech: ["Terraform", "AWS", "Kubernetes", "Grafana"],
     note: "Team project based on Google's open-source Online Boutique. Our work focused on cloud infrastructure, reliability and cost.",
     images: [
+      { src: cloudThumbnail, alt: "Black Friday Cloud Architecture project cover" },
       {
         src: cloudArchitecture,
         alt: "Cloud architecture diagram: load testing tools ramping traffic through an Application Load Balancer into an AWS EKS cluster running the Online Boutique microservices, with Terraform provisioning the VPC and IAM roles, HPA autoscaling pods, mixed on-demand/spot node groups, Grafana and Prometheus monitoring, security scans and network policies, and chaos engineering drills feeding incident runbooks with MTTR tracking",
