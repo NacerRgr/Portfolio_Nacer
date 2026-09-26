@@ -2,8 +2,7 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { ChevronLeftIcon, ChevronRightIcon } from "./SketchIcons";
 
 type CarouselImage = {
   src: string;
@@ -107,7 +106,7 @@ export function Carousel({
               "&:hover": { bgcolor: "rgba(10,10,10,0.8)" },
             }}
           >
-            <ArrowBackIosNewIcon fontSize="small" />
+            <ChevronLeftIcon fontSize="small" />
           </IconButton>
           <IconButton
             aria-label="Next screenshot"
@@ -123,7 +122,7 @@ export function Carousel({
               "&:hover": { bgcolor: "rgba(10,10,10,0.8)" },
             }}
           >
-            <ArrowForwardIosIcon fontSize="small" />
+            <ChevronRightIcon fontSize="small" />
           </IconButton>
 
           <Typography

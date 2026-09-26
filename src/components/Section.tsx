@@ -1,36 +1,54 @@
 import type { ReactNode } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { colors, fonts } from "../theme";
 
 type SectionProps = {
   id: string;
-  icon: string;
+  index: number;
   title: string;
+  intro?: ReactNode;
   children: ReactNode;
 };
 
-export function Section({ id, icon, title, children }: SectionProps) {
+export function Section({ id, index, title, intro, children }: SectionProps) {
   return (
-    <Box
-      component="section"
-      id={id}
-      aria-labelledby={`${id}-heading`}
-      sx={{ py: { xs: 7, md: 10 }, borderTop: "1px solid", borderColor: "divider", scrollMarginTop: 80 }}
-    >
-      <Typography
-        id={`${id}-heading`}
-        component="h2"
-        sx={{ display: "flex", alignItems: "center", gap: 1.5, fontWeight: 850, fontSize: { xs: "1.7rem", md: "2.15rem" }, letterSpacing: "-0.035em", mb: { xs: 4, md: 5 } }}
-      >
-        <Box
-          component="span"
-          aria-hidden="true"
-          sx={{ display: "grid", placeItems: "center", width: 38, height: 38, borderRadius: 2, bgcolor: "rgba(103, 232, 249, 0.08)", border: "1px solid rgba(103, 232, 249, 0.14)", fontSize: "1.05rem" }}
-        >
-          {icon}
+    <Box component="section" aria-labelledby={`${id}-heading`}>
+      <Box component="header" sx={{ mb: { xs: 3, md: 4.5 } }}>
+        <Box sx={{ display: "flex", alignItems: "baseline", gap: { xs: 1.5, md: 2.5 } }}>
+          <Typography
+            aria-hidden="true"
+            sx={{
+              fontFamily: fonts.display,
+              fontWeight: 700,
+              fontSize: { xs: "1.3rem", md: "1.6rem" },
+              lineHeight: 1,
+              color: colors.warm,
+            }}
+          >
+            {String(index).padStart(2, "0")}
+          </Typography>
+          <Typography
+            id={`${id}-heading`}
+            component="h2"
+            sx={{
+              color: "secondary.main",
+              fontFamily: fonts.display,
+              fontWeight: 700,
+              fontSize: { xs: "1.5rem", md: "1.9rem" },
+              letterSpacing: "-0.02em",
+              lineHeight: 1,
+            }}
+          >
+            {title}
+          </Typography>
         </Box>
-        {title}
-      </Typography>
+        {intro && (
+          <Typography sx={{ mt: { xs: 1.25, md: 1.75 }, maxWidth: 640, color: "text.secondary", lineHeight: 1.6, fontSize: { xs: "0.9rem", md: "0.98rem" } }}>
+            {intro}
+          </Typography>
+        )}
+      </Box>
       {children}
     </Box>
   );

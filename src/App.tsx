@@ -1,57 +1,38 @@
-import { useEffect } from "react";
+import { lazy } from "react";
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
 import { SkipLink } from "./components/SkipLink";
 import { Masthead } from "./components/Masthead";
 import { Hero } from "./components/Hero";
-import { About } from "./components/About";
-import { Projects } from "./components/Projects";
-import { Experience } from "./components/Experience";
-import { Skills } from "./components/Skills";
-import { Education } from "./components/Education";
-import { Contact } from "./components/Contact";
-import { Footer } from "./components/Footer";
+import { SlideDeckProvider, SlideViewport, type Slide } from "./components/SlideDeck";
+
+// Home ships in the main bundle; every other slide is its own chunk, loaded when the browser is idle
+// (see SlideTrack) or as soon as someone navigates to it.
+const Services = lazy(() => import("./components/Services").then((m) => ({ default: m.Services })));
+const Projects = lazy(() => import("./components/Projects").then((m) => ({ default: m.Projects })));
+const HowIWork = lazy(() => import("./components/HowIWork").then((m) => ({ default: m.HowIWork })));
+const Experience = lazy(() => import("./components/Experience").then((m) => ({ default: m.Experience })));
+const Skills = lazy(() => import("./components/Skills").then((m) => ({ default: m.Skills })));
+const Contact = lazy(() => import("./components/Contact").then((m) => ({ default: m.Contact })));
+
+const slides: Slide[] = [
+  { id: "main", label: "Home", content: <Hero /> },
+  { id: "services", label: "Services", content: <Services /> },
+  { id: "projects", label: "Projects", content: <Projects /> },
+  { id: "how-i-work", label: "Process", content: <HowIWork /> },
+  { id: "experience", label: "Experience", content: <Experience /> },
+  { id: "skills", label: "Skills", content: <Skills /> },
+  { id: "contact", label: "Contact", content: <Contact /> },
+];
 
 function App() {
-  useEffect(() => {
-    const scrollToHash = () => {
-      if (!window.location.hash) return;
-      const target = document.querySelector<HTMLElement>(window.location.hash);
-      target?.scrollIntoView({ block: "start", behavior: "auto" });
-    };
-
-    const firstFrame = requestAnimationFrame(() => {
-      requestAnimationFrame(scrollToHash);
-    });
-
-    document.fonts?.ready.then(scrollToHash);
-    window.addEventListener("hashchange", scrollToHash);
-
-    return () => {
-      cancelAnimationFrame(firstFrame);
-      window.removeEventListener("hashchange", scrollToHash);
-    };
-  }, []);
-
   return (
-    <>
-      <SkipLink />
-      <Masthead />
-      <Container maxWidth="lg" sx={{ maxWidth: "1120px !important", px: { xs: "20px", md: "32px" } }}>
-        <Box component="main" id="main" tabIndex={-1} sx={{ outline: "none" }}>
-          <Hero />
-          <About />
-          <Projects />
-          <Experience />
-          <Skills />
-          <Education />
-        </Box>
-      </Container>
-      <Contact />
-      <Container maxWidth="lg" sx={{ maxWidth: "1120px !important", px: { xs: "20px", md: "32px" } }}>
-        <Footer />
-      </Container>
-    </>
+    <SlideDeckProvider slides={slides}>
+      <Box sx={{ height: "100dvh", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <SkipLink />
+        <Masthead />
+        <SlideViewport />
+      </Box>
+    </SlideDeckProvider>
   );
 }
 

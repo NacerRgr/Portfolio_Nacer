@@ -1,5 +1,5 @@
 {
-  "name": "Mohamed Nacer Er-Ragragy | Full-Stack Software Engineer",
+  "name": "Mohamed Nacer Er-Ragragy | SaaS Developer & AI Automation Engineer",
   "short_name": "Nacer Er-Ragragy",
   "icons": [
     {
@@ -20,7 +20,7 @@
       "purpose": "any maskable"
     }
   ],
-  "theme_color": "#080b10",
-  "background_color": "#080b10",
+  "theme_color": "#faf5ea",
+  "background_color": "#faf5ea",
   "display": "browser"
 }

@@ -31,6 +31,11 @@ import {
   SiGerrit,
   SiTerraform,
   SiGrafana,
+  SiNodedotjs,
+  SiFastapi,
+  SiAngular,
+  SiRedis,
+  SiPrometheus,
 } from "react-icons/si";
 
 // Only skills with a real, recognizable brand mark get an icon.
@@ -67,4 +72,9 @@ export const skillIcons: Record<string, IconType> = {
   Gerrit: SiGerrit,
   Terraform: SiTerraform,
   Grafana: SiGrafana,
+  "Node.js": SiNodedotjs,
+  FastAPI: SiFastapi,
+  Angular: SiAngular,
+  Redis: SiRedis,
+  Prometheus: SiPrometheus,
 };
