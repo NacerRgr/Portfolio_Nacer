@@ -112,6 +112,70 @@ export const PaperPlaneIcon = sketchIcon(
   </>,
 );
 
+// ---- How I Work ----
+export const MagnifierIcon = sketchIcon(
+  "MagnifierIcon",
+  <>
+    <circle cx="10.4" cy="10.2" r="5.6" />
+    <path d="M14.6 14.5c1.8 1.7 3.5 3.4 5.2 5.2" />
+    <path d="M7.9 8.3c.6-1 1.5-1.6 2.6-1.8" />
+  </>,
+);
+
+export const WrenchIcon = sketchIcon(
+  "WrenchIcon",
+  <>
+    <path d="M14.8 4.2a4.6 4.6 0 0 0-4.2 6.3l-6 6c-.8.8-.8 2 0 2.8.8.8 2 .8 2.8 0l6-6a4.6 4.6 0 0 0 6.3-4.2l-2.8 1.4-2.2-.7-.7-2.2z" />
+    <circle className="dot" cx="6" cy="18" r="0.8" />
+  </>,
+);
+
+export const GrowthIcon = sketchIcon(
+  "GrowthIcon",
+  <>
+    <path d="M4.2 19.6c5.3.2 10.4.2 15.6 0" />
+    <path d="M5.2 15.8c2.3-2.2 4.2-4.1 6.1-5.6 1.4 1.3 2.6 2.4 3.9 3.3 1.6-2.4 3-4.6 4.3-6.9" />
+    <path d="M16.4 6.4c1.3-.1 2.5-.1 3.8.2.2 1.2.2 2.4.1 3.7" />
+  </>,
+);
+
+// Value props
+export const RouteIcon = sketchIcon(
+  "RouteIcon",
+  <>
+    <circle cx="6" cy="6" r="2.2" />
+    <circle cx="18" cy="18" r="2.2" />
+    <path d="M8.2 6.2c4.3-.2 8.5.3 8.6 3.3.1 3-9.8 2.1-9.9 5.2-.1 2.6 3.7 3.3 8.7 3.3" />
+  </>,
+);
+
+export const GearIcon = sketchIcon(
+  "GearIcon",
+  <>
+    <circle cx="12" cy="12" r="3" />
+    <path d="M12 3.6v2.3M12 18.1v2.3M3.6 12h2.3M18.1 12h2.3M6.1 6.1l1.6 1.6M16.3 16.3l1.6 1.6M6.1 17.9l1.6-1.6M16.3 7.7l1.6-1.6" />
+    <path d="M12 6.8a5.2 5.2 0 1 1-.1 0z" />
+  </>,
+);
+
+export const ShieldIcon = sketchIcon(
+  "ShieldIcon",
+  <>
+    <path d="M12 3.8c2.3 1.4 4.6 2.1 7 2.3.2 5.6-1.9 10.9-7 14.1-5.1-3.2-7.2-8.5-7-14.1 2.4-.2 4.7-.9 7-2.3z" />
+    <path d="M9 12.3c.9.9 1.7 1.8 2.4 2.7 1.3-2 2.6-3.7 4-5.2" />
+  </>,
+);
+
+export const TargetIcon = sketchIcon(
+  "TargetIcon",
+  <>
+    <circle cx="11.5" cy="12.5" r="7.2" />
+    <circle cx="11.5" cy="12.5" r="3.4" />
+    <circle className="dot" cx="11.5" cy="12.5" r="0.9" />
+    <path d="M11.9 12.1c2.3-2.4 4.6-4.6 7-6.8M17 4.6l2 .9.7 2" />
+  </>,
+);
+
 export const MailIcon = sketchIcon(
   "MailIcon",
   <>

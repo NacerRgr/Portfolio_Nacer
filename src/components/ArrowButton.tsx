@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import Box from "@mui/material/Box";
 import ButtonBase from "@mui/material/ButtonBase";
 import { alpha } from "@mui/material/styles";
-import { colors } from "../theme";
+import { colors, fonts } from "../theme";
 
 const ease = "cubic-bezier(0.65, 0, 0.35, 1)";
 
@@ -33,88 +33,105 @@ export function LineArrow({ flip, length = 22, color = "primary.main" }: { flip?
   );
 }
 
-// Same rolling-label hover as the navbar links.
-function RollLabel({ children }: { children: ReactNode }) {
-  return (
-    <Box component="span" sx={{ display: "inline-block", height: "1.4em", lineHeight: 1.4, overflow: "hidden" }}>
-      <Box component="span" className="roll" sx={{ display: "flex", flexDirection: "column", transition: `transform 0.4s ${ease}` }}>
-        <span>{children}</span>
-        <span aria-hidden="true">{children}</span>
-      </Box>
-    </Box>
-  );
-}
-
 type ArrowButtonProps = {
   href: string;
   children: ReactNode;
   size?: "small" | "medium" | "large";
 };
 
-// Primary call to action: teal pill with the drawn arrow in a white "coin" at the end.
-export function ArrowButton({ href, children, size = "medium" }: ArrowButtonProps) {
-  const dims = {
-    small: { coin: 28, gap: 1.25, pl: 2, pad: "4px", font: "0.85rem", arrow: 11 },
-    medium: { coin: 36, gap: 1.75, pl: 2.5, pad: "5px", font: "0.95rem", arrow: 14 },
-    large: { coin: 40, gap: 2, pl: 3, pad: "5px", font: "1rem", arrow: 14 },
-  }[size];
-  const coin = dims.coin;
+// Primary call to action as a painted brush swash rather than a UI pill, with a seed that sprouts: one stroke of sky-blue
+// paint with ragged edges, a paler wash peeking out off-register, the label and an inked arrow.
+// On hover the paint lifts, the pale wash drifts the other way and the arrow reaches forward.
+// Hover motion is transform-only.
+const swashPath =
+  "M7.5 17.2C29 6.6 67 3.6 108 4.4c33 .7 61 2.6 81.5 8.3 6.8 1.9 9.4 9.3 8.6 16.8-.9 8.6-3.6 16.2-11.2 19.2-24.1 6.4-60.4 7.1-96.3 6.4-30.1-.6-57.8-2.3-77.9-7.6C3.9 45.6 1.5 38.3 2.2 30.4c.5-5.2 1.6-9.9 5.3-13.2z";
 
+
+// "Start a project" = plant a seed. A terracotta seed rests on the paint's top edge; on hover a stem
+// draws itself up out of the button and two leaves unfurl (a nod to Totoro's overnight tree).
+// Touch screens can't hover, so there it is shown already sprouted.
+const grown = {
+  "& .stem": { strokeDashoffset: 0 },
+  "& .leaf-l": { transform: "scale(1) rotate(0deg)" },
+  "& .leaf-r": { transform: "scale(1) rotate(0deg)" },
+  "& .seed": { transform: "rotate(-14deg)" },
+} as const;
+
+const sproutSx = {
+  position: "absolute",
+  left: 20,
+  // Sits so the seed rests on the swash's top edge (which dips on the left).
+  top: -24,
+  width: 34,
+  height: 34,
+  overflow: "visible",
+  pointerEvents: "none",
+  "& .stem": { fill: "none", stroke: colors.sprout, strokeWidth: 2, strokeLinecap: "round", strokeDasharray: 26, strokeDashoffset: 26, transition: `stroke-dashoffset 0.4s ${ease}` },
+  "& .leaf-l, & .leaf-r": { fill: colors.sprout, transition: `transform 0.35s ${ease} 0.22s` },
+  "& .leaf-l": { transformOrigin: "15px 15px", transform: "scale(0) rotate(30deg)" },
+  "& .leaf-r": { transformOrigin: "15.5px 12px", transform: "scale(0) rotate(-30deg)", transitionDelay: "0.32s" },
+  "& .leaf-vein": { fill: "none", stroke: alpha("#FFFFFF", 0.55), strokeWidth: 0.8, strokeLinecap: "round" },
+  "& .seed": { fill: colors.warm, transformOrigin: "15px 28px", transition: `transform 0.5s ${ease}` },
+  "@media (hover: none)": grown,
+} as const;
+
+function Sprout() {
   return (
-    <ButtonBase
-      component="a"
-      href={href}
-      sx={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: dims.gap,
-        pl: dims.pl,
-        pr: dims.pad,
-        py: dims.pad,
-        borderRadius: 999,
-        bgcolor: "primary.main",
-        color: "#FFFFFF",
-        fontWeight: 700,
-        fontSize: dims.font,
-        letterSpacing: "-0.005em",
-        boxShadow: `0 1px 0 ${alpha("#FFFFFF", 0.18)} inset, 0 6px 16px ${alpha(colors.accent, 0.2)}`,
-        transition: `background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ${ease}`,
-        "&:hover": {
-          bgcolor: colors.accentHover,
-          boxShadow: `0 1px 0 ${alpha("#FFFFFF", 0.18)} inset, 0 12px 28px ${alpha(colors.accent, 0.3)}`,
-        },
-        "&:active": { transform: "scale(0.98)" },
-        "&.Mui-focusVisible": { outline: `2px solid ${colors.accent}`, outlineOffset: 3 },
-        "&:hover .roll, &.Mui-focusVisible .roll": { transform: "translateY(-50%)" },
-        "&:hover .arrow-out, &.Mui-focusVisible .arrow-out": { transform: `translateX(${coin}px)` },
-        "&:hover .arrow-in, &.Mui-focusVisible .arrow-in": { transform: "translateX(0)" },
-        "&:hover .coin, &.Mui-focusVisible .coin": { transform: "scale(1.06)" },
-      }}
-    >
-      <RollLabel>{children}</RollLabel>
-      <Box
-        component="span"
-        className="coin"
-        sx={{
-          position: "relative",
-          display: "grid",
-          placeItems: "center",
-          width: coin,
-          height: coin,
-          borderRadius: "50%",
-          bgcolor: colors.warmSoft,
-          overflow: "hidden",
-          flexShrink: 0,
-          transition: `transform 0.4s ${ease}`,
-        }}
-      >
-        <Box component="span" className="arrow-out" sx={{ gridArea: "1 / 1", display: "flex", transition: `transform 0.4s ${ease}` }}>
-          <LineArrow length={dims.arrow} />
-        </Box>
-        <Box component="span" className="arrow-in" sx={{ gridArea: "1 / 1", display: "flex", transform: `translateX(-${coin}px)`, transition: `transform 0.4s ${ease}` }}>
-          <LineArrow length={dims.arrow} />
-        </Box>
+    <Box component="svg" viewBox="0 0 30 30" aria-hidden="true" sx={sproutSx}>
+      <path className="stem" d="M15 28.5c-.4-5.2.3-10 1-14.8.4-2.8.3-5.3-.3-7.9" />
+      <g className="leaf-l">
+        <path d="M15.2 15.5C11.8 16.6 7.3 15.9 4.4 12.9 8 10.6 12.6 11 15.2 15.5z" />
+        <path className="leaf-vein" d="M14.4 15.1c-2.8-1.4-5.5-2-8.3-2.1" />
+      </g>
+      <g className="leaf-r">
+        <path d="M15.7 12.2c2.2-3.6 6.2-5.9 10.5-5.3-1.3 4.1-5.6 6.7-10.5 5.3z" />
+        <path className="leaf-vein" d="M16.4 11.7c2.6-1.8 5.1-3 7.9-3.8" />
+      </g>
+      <ellipse className="seed" cx="15" cy="28.2" rx="3.4" ry="2.3" />
+    </Box>
+  );
+}
+
+const paintButtonSx = {
+  position: "relative",
+  isolation: "isolate",
+  display: "inline-flex",
+  alignItems: "center",
+  color: "#FFFFFF",
+  fontFamily: fonts.display,
+  fontWeight: 700,
+  letterSpacing: "-0.005em",
+  whiteSpace: "nowrap",
+  "& .swash, & .swash-under": { position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible", zIndex: -1, transition: `transform 0.45s ${ease}` },
+  "& .swash": { fill: colors.accent, filter: `drop-shadow(0 8px 14px ${alpha(colors.accent, 0.28)})` },
+  "& .swash-under": { fill: colors.accentMuted, opacity: 0.75, transform: "translate(5px, 4px) rotate(-1.2deg)" },
+  "&:hover .swash, &.Mui-focusVisible .swash": { transform: "translateY(-2px) rotate(-0.6deg)" },
+  "&:hover .swash-under, &.Mui-focusVisible .swash-under": { transform: "translate(8px, 6px) rotate(-2deg)" },
+  "&:hover .shaft, &.Mui-focusVisible .shaft": { width: 32 },
+  "&:hover, &.Mui-focusVisible": grown,
+  "&:active .swash": { transform: "translateY(0) scale(0.985)" },
+  "&.Mui-focusVisible": { outline: `2px solid ${colors.accent}`, outlineOffset: 6, borderRadius: "14px" },
+} as const;
+
+const paintSizes = {
+  small: { font: "0.85rem", px: 2, py: 1, gap: 1, arrow: 14 },
+  medium: { font: "1rem", px: 3, py: 1.4, gap: 1.25, arrow: 18 },
+  large: { font: "1.08rem", px: 3.5, py: 1.6, gap: 1.5, arrow: 20 },
+} as const;
+
+export function ArrowButton({ href, children, size = "medium" }: ArrowButtonProps) {
+  const d = paintSizes[size];
+  return (
+    <ButtonBase component="a" href={href} disableRipple sx={[paintButtonSx, { fontSize: d.font, px: d.px, py: d.py, gap: d.gap }]}>
+      <Box component="svg" className="swash-under" viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true">
+        <path d={swashPath} />
       </Box>
+      <Box component="svg" className="swash" viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true">
+        <path d={swashPath} />
+      </Box>
+      {size !== "small" && <Sprout />}
+      <span>{children}</span>
+      <LineArrow length={d.arrow} color="#FFFFFF" />
     </ButtonBase>
   );
 }

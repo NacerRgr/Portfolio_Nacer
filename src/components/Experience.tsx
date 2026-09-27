@@ -6,7 +6,7 @@ import { experience } from "../data/cv";
 import { skillIcons } from "../data/skillIcons";
 import { skillColors } from "../data/skillColors";
 import { Section } from "./Section";
-import { colors } from "../theme";
+import { colors, phoneHidden } from "../theme";
 
 // Oldest on the left, current role last so the timeline reads toward "now".
 const orderedExperience = [...experience]
@@ -19,7 +19,23 @@ const orderedExperience = [...experience]
 
 export function Experience() {
   return (
-    <Section id="experience" index={4} title="Experience" intro="From backend internships to owning production features — oldest on the left, where I am now on the right.">
+    <Section
+      id="experience"
+      index={4}
+      title="Experience"
+      intro={
+        <>
+          From backend internships to owning production features{" "}
+          {/* The timeline runs left→right on tablet/desktop but stacks newest-first on phones. */}
+          <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+            — oldest on the left, where I am now on the right.
+          </Box>
+          <Box component="span" sx={{ display: { xs: "inline", sm: "none" } }}>
+            — most recent first.
+          </Box>
+        </>
+      }
+    >
       <Box
         component="ol"
         sx={{
@@ -73,7 +89,7 @@ export function Experience() {
               </Typography>
               <Typography sx={{ color: "primary.main", fontSize: "0.78rem", fontWeight: 600, lineHeight: 1.35 }}>{job.role}</Typography>
               <Typography sx={{ mt: { xs: 0.4, md: 1 }, color: "text.secondary", fontSize: "0.8rem", lineHeight: 1.5 }}>{job.highlights[0]}</Typography>
-              <Stack direction="row" sx={{ mt: 1, flexWrap: "wrap", gap: 0.6 }}>
+              <Stack direction="row" sx={{ ...phoneHidden("flex"), mt: 1, flexWrap: "wrap", gap: 0.6 }}>
                 {job.tech.slice(0, 4).map((tech) => {
                   const Icon = skillIcons[tech];
                   const color = skillColors[tech];

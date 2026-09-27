@@ -2,13 +2,14 @@ import type { ReactNode } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
+import { visuallyHidden } from "@mui/utils";
 // GitHub / LinkedIn keep their official marks; everything else is the hand-inked set.
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { MailIcon, DocumentIcon, ArrowOutwardIcon, IconWash, type WashTint } from "./SketchIcons";
 import { profile } from "../data/cv";
 import { ArrowButton } from "./ArrowButton";
-import { fonts } from "../theme";
+import { fonts, shortPhone } from "../theme";
 
 type Channel = {
   label: string;
@@ -35,14 +36,14 @@ export function Contact() {
       sx={{
         display: "grid",
         gridTemplateColumns: { xs: "1fr", md: "minmax(0, 1.15fr) minmax(0, 1fr)" },
-        gap: { xs: 3, md: 7 },
+        gap: { xs: 3.5, md: 7 },
         alignItems: "center",
+        // Phones: breathing room under the navbar.
+        pt: { xs: 3, sm: 0 },
+        [shortPhone]: { gap: 2, pt: 1 },
       }}
     >
-      <Box>
-        <Typography sx={{ mb: 1.5, color: "primary.main", fontWeight: 800, fontSize: "0.72rem", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-          Contact
-        </Typography>
+      <Box sx={{ textAlign: { xs: "center", sm: "left" } }}>
         <Typography
           id="contact-heading"
           component="h2"
@@ -53,29 +54,30 @@ export function Contact() {
             fontSize: { xs: "1.7rem", md: "2.35rem" },
             letterSpacing: "-0.02em",
             lineHeight: 1.12,
+            [shortPhone]: { fontSize: "1.4rem" },
           }}
         >
           Have a workflow to automate or a SaaS product to build?
         </Typography>
 
-        <Typography sx={{ mt: 1.5, maxWidth: 520, color: "text.secondary", lineHeight: 1.6, fontSize: "0.92rem" }}>
+        <Typography sx={{ mt: 1.5, mx: { xs: "auto", sm: 0 }, maxWidth: { xs: 360, sm: 520 }, color: "text.secondary", lineHeight: 1.6, fontSize: "0.92rem" }}>
           Tell me what is slowing your team down or what you want to launch. I can help you design, build and ship a reliable production-ready solution.
         </Typography>
 
-        <Box sx={{ mt: 3 }}>
+        <Box sx={{ mt: { xs: 3.5, sm: 3 }, [shortPhone]: { mt: 3 } }}>
           <ArrowButton href={`mailto:${profile.email}`} size="large">
             Start a Project
           </ArrowButton>
         </Box>
 
-        <Typography sx={{ mt: 2, display: "flex", alignItems: "center", gap: 0.8, color: "text.secondary", opacity: 0.8, fontSize: "0.82rem" }}>
+        <Typography sx={{ mt: 2, display: "flex", justifyContent: { xs: "center", sm: "flex-start" }, alignItems: "center", gap: 0.8, color: "text.secondary", opacity: 0.8, fontSize: "0.82rem" }}>
           <Box component="span" aria-hidden="true" sx={{ width: 7, height: 7, borderRadius: "50%", bgcolor: "success.main", flexShrink: 0 }} />
           Available for freelance and long-term collaborations.
         </Typography>
       </Box>
 
       <Box>
-        <Box sx={{ borderTop: "2px solid", borderColor: "primary.main" }}>
+        <Box sx={{ borderTop: "1px solid", borderColor: "divider" }}>
           {channels.map((channel) => (
             <Link
               key={channel.label}
@@ -99,10 +101,11 @@ export function Contact() {
                 {channel.icon}
               </IconWash>
               <Box sx={{ minWidth: 0, flex: 1 }}>
-                <Typography sx={{ color: "text.secondary", fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-                  {channel.label}
-                </Typography>
-                <Typography sx={{ fontWeight: 650, fontSize: "0.92rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {/* The icon already names the channel; the label stays for screen readers only. */}
+                <Box component="span" sx={visuallyHidden}>
+                  {channel.label}:{" "}
+                </Box>
+                <Typography sx={{ fontWeight: 600, fontSize: "0.95rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                   {channel.value}
                 </Typography>
               </Box>
@@ -111,7 +114,7 @@ export function Contact() {
           ))}
         </Box>
 
-        <Typography variant="caption" color="text.secondary" component="p" sx={{ mt: 2 }}>
+        <Typography variant="caption" color="text.secondary" component="p" sx={{ mt: 2, display: { xs: "none", sm: "block" } }}>
           &copy; {new Date().getFullYear()} {profile.name}
         </Typography>
       </Box>

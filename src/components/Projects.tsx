@@ -28,7 +28,17 @@ export function Projects() {
       id="projects"
       index={2}
       title="Featured Case Studies"
-      intro="Real products and engineering systems built around automation, reliability and measurable outcomes. Click a project to open the case study."
+      intro={
+        <>
+          {/* Phones get the short, touch-worded version. */}
+          <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+            Real products and engineering systems built around automation, reliability and measurable outcomes. Click a project to open the case study.
+          </Box>
+          <Box component="span" sx={{ display: { xs: "inline", sm: "none" } }}>
+            Real products built for measurable outcomes. Tap one to open its case study.
+          </Box>
+        </>
+      }
     >
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "repeat(2, minmax(0, 1fr))", sm: "repeat(3, minmax(0, 1fr))", md: "repeat(4, minmax(0, 1fr))" }, gap: 1.5 }}>
         {projects.map((project) => {

@@ -36,10 +36,14 @@ import {
   SiAngular,
   SiRedis,
   SiPrometheus,
+  SiTailwindcss,
+  SiShadcnui,
+  SiXyflow,
 } from "react-icons/si";
+import { LuChartSpline, LuArrowRightLeft } from "react-icons/lu";
 
-// Only skills with a real, recognizable brand mark get an icon.
-// methodologies (Agile, TDD…) and unbranded tools stay text-only.
+// Brand marks for tools that have one. Unbranded tech used in projects (Recharts, WebSockets) gets a
+// clear generic icon instead; methodologies (Agile, TDD…) stay text-only.
 export const skillIcons: Record<string, IconType> = {
   Java: DiJava,
   AWS: FaAws,
@@ -77,4 +81,10 @@ export const skillIcons: Record<string, IconType> = {
   Angular: SiAngular,
   Redis: SiRedis,
   Prometheus: SiPrometheus,
+  "Tailwind CSS": SiTailwindcss,
+  "shadcn/ui": SiShadcnui,
+  "React Flow": SiXyflow, // React Flow is made by xyflow
+  EKS: FaAws, // Amazon EKS: AWS's managed Kubernetes
+  Recharts: LuChartSpline,
+  WebSockets: LuArrowRightLeft,
 };

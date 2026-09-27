@@ -18,10 +18,18 @@ export const colors = {
   warmSoft: "#F7E4D0", // sunlit cloud peach
   leaf: "#B8C597", // foliage (decorative)
   leafSoft: "#E6EBD3", // foliage wash behind icons
+  sprout: "#6FA64A", // young-leaf green for the "Start a Project" sprout
   success: "#5E9E4A", // leaf green status dots
   successText: "#3C6E2F", // deeper leaf for small green text
   line: "#E8DFCC", // paper edge
 };
+
+// Phones (< 600px) get a trimmed version of dense slides; tablets and desktop keep everything.
+// Hides an element on phones and restores its display type from `sm` up.
+export const phoneHidden = (display: "block" | "flex" | "grid" = "block") => ({ display: { xs: "none", sm: display } }) as const;
+
+// Small / short phones (e.g. 360×740): tighten stacked slides so they fit one screen.
+export const shortPhone = "@media (max-width: 599px) and (max-height: 780px)";
 
 export const fonts = {
   // Rounded Japanese gothic for headings (the soft lettering of Japanese animation posters);

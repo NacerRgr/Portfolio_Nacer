@@ -91,6 +91,7 @@ export const profile = {
   displayName: "Nacer Er-Ragragy",
   title: "Full-Stack SaaS Developer & AI Automation Engineer",
   eyebrow: "Full-Stack SaaS Developer • AI Automation Engineer",
+  shortRole: "Full-Stack & AI Automation Engineer",
   location: "Paris, France",
   email: "mnacer082@gmail.com",
   phone: "+33 7 71 53 99 95",
@@ -113,31 +114,16 @@ export const introLines: IntroLine[] = [
 
 export type Service = {
   title: string;
-  description: string;
-  examples: string[];
+  // One outcome-focused line: what the client gets.
+  pitch: string;
+  tags: string[];
 };
 
 export const services: Service[] = [
-  {
-    title: "AI Automation",
-    description: "Automate repetitive workflows, connect business tools and use AI where it creates real operational value.",
-    examples: ["AI-powered workflows", "AI assistants", "Automated data processing", "Document processing", "Reporting automation", "API integrations", "Business process automation"],
-  },
-  {
-    title: "SaaS & Backend Development",
-    description: "Build secure SaaS products and backend systems designed around real business workflows.",
-    examples: ["Node.js and Java backends", "Spring Boot APIs", "REST APIs", "Authentication and permissions", "Database design", "Third-party integrations", "Multi-step business workflows"],
-  },
-  {
-    title: "Frontend & Product Interfaces",
-    description: "Build clean interfaces for SaaS products, dashboards and internal tools.",
-    examples: ["React", "Next.js", "TypeScript", "Admin dashboards", "Data-heavy interfaces", "Responsive applications", "User journey improvements"],
-  },
-  {
-    title: "Cloud & DevOps",
-    description: "Ship applications with reliable deployment, testing and infrastructure workflows.",
-    examples: ["Docker", "Kubernetes", "AWS", "GCP", "Jenkins", "GitLab CI/CD", "Automated deployments", "Monitoring"],
-  },
+  { title: "AI Automation", pitch: "Turn repetitive manual work into workflows that run themselves.", tags: ["AI assistants", "Document AI", "Integrations"] },
+  { title: "SaaS & Backends", pitch: "Secure products and APIs built around how your business actually works.", tags: ["Spring Boot", "Node.js", "Auth & permissions"] },
+  { title: "Product Interfaces", pitch: "Clean, fast dashboards and apps people understand at first glance.", tags: ["React", "Next.js", "Dashboards"] },
+  { title: "Cloud & DevOps", pitch: "Tests, deployments and monitoring so shipping stays calm and boring.", tags: ["Docker", "Kubernetes", "CI/CD"] },
 ];
 
 export type Principle = {
@@ -168,19 +154,19 @@ export type ValueProp = {
 export const valueProps: ValueProp[] = [
   {
     title: "End-to-end ownership",
-    description: "I can work from backend architecture and database design through frontend integration, automation and deployment.",
+    description: "From database design to frontend and deployment.",
   },
   {
     title: "Automation mindset",
-    description: "I look for repetitive manual work that software or AI can remove.",
+    description: "I hunt for manual work that software or AI can remove.",
   },
   {
     title: "Production-ready engineering",
-    description: "Testing, authentication, validation, maintainability and deployment are part of the solution, not afterthoughts.",
+    description: "Tests, security and deployment are built in, not bolted on.",
   },
   {
     title: "Business-focused decisions",
-    description: "Technology choices should support the workflow, users and business outcome.",
+    description: "Tech choices serve your users and your results.",
   },
 ];
 

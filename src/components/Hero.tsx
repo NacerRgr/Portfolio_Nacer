@@ -1,40 +1,49 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
-import Link from "@mui/material/Link";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { profile } from "../data/cv";
 // Build-time WebP variants of the 1254px source: 1x/2x for the ~300px frame.
 import portrait320 from "../assets/portrait-ghibli-workspace.png?w=320&quality=80&format=webp";
 import portrait640 from "../assets/portrait-ghibli-workspace.png?w=640&quality=78&format=webp";
 import { alpha, type SxProps, type Theme } from "@mui/material/styles";
-import { colors, fonts } from "../theme";
+import { colors, fonts, shortPhone } from "../theme";
 import { ArrowButton, ArrowLink } from "./ArrowButton";
-import { MailIcon, CodeIcon, ServerIcon, NetworkIcon, ChipIcon, IconWash, type WashTint } from "./SketchIcons";
+import { CodeIcon, ServerIcon, NetworkIcon, ChipIcon, IconWash, type WashTint } from "./SketchIcons";
+
+// Phones up to ~820px tall: the summary sentence is dropped (headline + role already say it),
+// leaving real breathing room around the portrait instead of a cramped top.
+const compactPhone = "@media (max-width: 599px) and (max-height: 820px)";
 
 export function Hero() {
   return (
     <Box
       component="section"
       aria-labelledby="hero-heading"
-      sx={{ position: "relative" }}
+      // Phones: guaranteed breathing room under the navbar (the cloud and badges poke above the frame).
+      sx={{ position: "relative", pt: { xs: 10.5, sm: 0 }, pb: { xs: 1, sm: 0 }, [compactPhone]: { pt: 9.5 } }}
     >
       <Box
         sx={{
           position: "relative",
           display: "grid",
           gridTemplateColumns: { xs: "1fr", md: "minmax(0, 1.35fr) minmax(220px, 0.65fr)" },
-          gap: { xs: 5, md: 7 },
+          gap: { xs: 3.5, sm: 5, md: 7 },
           alignItems: "center",
+          [shortPhone]: { gap: 2.5 },
         }}
       >
-        <Box>
-          <Typography sx={{ mb: 2, fontSize: "0.9rem" }}>
-            <Box component="span" sx={{ color: "primary.main", fontWeight: 700 }}>
-              {profile.name}
+        {/* Phones: portrait first as the anchor, then a centered text block spanning the width.
+            From `sm` up the original side-by-side / left-aligned layout is unchanged. */}
+        <Box sx={{ order: { xs: 2, sm: 0 }, textAlign: { xs: "center", sm: "left" } }}>
+          {/* One quiet line: who, then what (two centered lines on phones). */}
+          <Typography sx={{ mb: 2, fontSize: "0.9rem", color: "text.secondary" }}>
+            <Box component="span" sx={{ display: { xs: "block", sm: "inline" }, color: "text.primary", fontWeight: 600 }}>
+              {profile.displayName}
             </Box>
-            <Box component="span" sx={{ color: "text.secondary" }}> · {profile.eyebrow}</Box>
+            <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+              {" · "}
+            </Box>
+            {profile.shortRole}
           </Typography>
 
           <Typography
@@ -47,6 +56,7 @@ export function Hero() {
               letterSpacing: "-0.01em",
               lineHeight: 1.12,
               fontSize: { xs: "2.2rem", sm: "2.8rem", md: "3.1rem" },
+              [shortPhone]: { fontSize: "1.9rem" },
             }}
           >
             I build software that{" "}
@@ -55,30 +65,19 @@ export function Hero() {
             </Box>
           </Typography>
 
-          <Typography sx={{ mt: 2, maxWidth: 600, color: "text.secondary", lineHeight: 1.65, fontSize: { xs: "0.95rem", md: "1.05rem" } }}>
+          <Typography sx={{ mt: 2, mx: { xs: "auto", sm: 0 }, maxWidth: { xs: 340, sm: 600 }, [compactPhone]: { display: "none" }, color: "text.secondary", lineHeight: 1.65, fontSize: { xs: "0.95rem", md: "1.05rem" } }}>
             {profile.summary}
           </Typography>
 
-          <Stack direction={{ xs: "column", sm: "row" }} spacing={2.5} sx={{ mt: 3, alignItems: { xs: "flex-start", sm: "center" } }}>
+          <Stack
+            direction="row"
+            useFlexGap
+            sx={{ mt: { xs: 3.5, sm: 3 }, gap: { xs: 2, sm: 2.5 }, flexWrap: "wrap", alignItems: "center", justifyContent: { xs: "center", sm: "flex-start" } }}
+          >
             <ArrowButton href="#contact">Start a Project</ArrowButton>
             <ArrowLink href="#projects">View Case Studies</ArrowLink>
           </Stack>
 
-          <Stack direction="row" spacing={2.5} sx={{ mt: 3.5, alignItems: "center", flexWrap: "wrap", rowGap: 1 }}>
-            <Link href={profile.github} target="_blank" rel="noreferrer" underline="none" sx={{ display: "inline-flex", alignItems: "center", gap: 0.7, color: "text.secondary", fontSize: "0.85rem" }}>
-              <GitHubIcon sx={{ fontSize: 17 }} /> GitHub
-            </Link>
-            <Link href={profile.linkedin} target="_blank" rel="noreferrer" underline="none" sx={{ display: "inline-flex", alignItems: "center", gap: 0.7, color: "text.secondary", fontSize: "0.85rem" }}>
-              <LinkedInIcon sx={{ fontSize: 17 }} /> LinkedIn
-            </Link>
-            <Link href={`mailto:${profile.email}`} underline="none" sx={{ display: "inline-flex", alignItems: "center", gap: 0.7, color: "text.secondary", fontSize: "0.85rem" }}>
-              <MailIcon sx={{ fontSize: 18 }} /> Email
-            </Link>
-            <Typography sx={{ display: "inline-flex", alignItems: "center", gap: 0.8, color: "text.secondary", opacity: 0.8, fontSize: "0.85rem" }}>
-              <Box component="span" aria-hidden="true" sx={{ width: 7, height: 7, borderRadius: "50%", bgcolor: "success.main", flexShrink: 0 }} />
-              {profile.availability}
-            </Typography>
-          </Stack>
         </Box>
 
         <PaintedPortrait />
@@ -122,7 +121,7 @@ const cloudSx = {
 // is off screen (the pane is `inert`); the global reduced-motion rule stops it entirely.
 const pausedOffscreen = { "[inert] &": { animationPlayState: "paused" } } as const;
 
-// Pencil-dash orbit around the frame, turning slowly, with a few painted dots riding on it.
+// Faint pencil-dash orbit around the frame, turning slowly, with one painted dot riding on it.
 const orbitSx = {
   position: "absolute",
   inset: { xs: "-15%", md: "-17%" },
@@ -136,10 +135,8 @@ const orbitSx = {
 function Orbit() {
   return (
     <Box component="svg" viewBox="0 0 200 200" aria-hidden="true" sx={orbitSx}>
-      <circle cx="100" cy="100" r="96" fill="none" stroke={colors.accentMuted} strokeWidth="1.4" strokeDasharray="1 7" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-      <circle cx="100" cy="4" r="3.2" fill={colors.accent} />
-      <circle cx="183" cy="148" r="2.6" fill={colors.warm} />
-      <circle cx="12" cy="140" r="2.2" fill={colors.accentMuted} />
+      <circle cx="100" cy="100" r="96" fill="none" stroke={colors.accentMuted} strokeOpacity="0.55" strokeWidth="1.3" strokeDasharray="1 8" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+      <circle cx="100" cy="4" r="2.8" fill={colors.warm} opacity="0.85" />
     </Box>
   );
 }
@@ -192,7 +189,17 @@ function Badge({ Icon, tint, tilt, delay, place }: BadgeSpec) {
 // a sunlit wash behind it, a pencil orbit, tech badges pinned around it and a cloud drifting past.
 function PaintedPortrait() {
   return (
-    <Box sx={{ position: "relative", justifySelf: { xs: "center", md: "center" }, width: { xs: 220, sm: 260, md: 300 }, mt: { xs: 3, md: 0 }, mb: { xs: 2, md: 0 } }}>
+    <Box
+      sx={{
+        position: "relative",
+        order: { xs: 1, sm: 0 },
+        justifySelf: "center",
+        // Phones: sized by the screen's height too, so shorter phones get a smaller portrait, not a cramped top.
+        width: { xs: "min(56vw, 230px, 27vh)", sm: 260, md: 300 },
+        mt: { xs: 0, sm: 3, md: 0 },
+        mb: { xs: 0.5, sm: 2, md: 0 },
+      }}
+    >
       <Box
         aria-hidden="true"
         sx={{

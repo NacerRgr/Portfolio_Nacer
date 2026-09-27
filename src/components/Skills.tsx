@@ -1,9 +1,9 @@
 import { Fragment } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { skills, secondarySkills, education, languages, experience } from "../data/cv";
+import { skills, secondarySkills, education, languages } from "../data/cv";
 import { Section } from "./Section";
-import { fonts } from "../theme";
+import { fonts, phoneHidden } from "../theme";
 
 const display = fonts.display;
 
@@ -14,11 +14,6 @@ const label = {
   letterSpacing: "0.1em",
   textTransform: "uppercase",
 } as const;
-
-// Where a group was actually used, taken from each role's tech list.
-function usedAt(groupSkills: string[]) {
-  return experience.filter((job) => job.tech.some((tech) => groupSkills.includes(tech))).map((job) => job.company);
-}
 
 export function Skills() {
   return (
@@ -31,13 +26,23 @@ export function Skills() {
             md: "minmax(0, 2fr) minmax(0, 1fr)",
           },
           columnGap: { md: 7 },
-          rowGap: 5,
+          rowGap: { xs: 3, sm: 5 },
         }}
       >
         <Box>
-          <Box component="dl" sx={{ m: 0, borderBottom: "1px solid", borderColor: "divider" }}>
+          {/* Phones: categories in two columns (half the height); from `sm` up, the ruled list. */}
+          <Box
+            component="dl"
+            sx={{
+              m: 0,
+              display: { xs: "grid", sm: "block" },
+              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+              columnGap: 2.5,
+              borderBottom: "1px solid",
+              borderColor: "divider",
+            }}
+          >
             {skills.map((group) => {
-              const places = usedAt(group.skills);
               return (
                 <Box
                   key={group.category}
@@ -49,7 +54,7 @@ export function Skills() {
                     },
                     columnGap: 3,
                     rowGap: 0.5,
-                    py: { xs: 1.25, md: 1.4 },
+                    py: { xs: 1, sm: 1.25, md: 1.4 },
                     borderTop: "1px solid",
                     borderColor: "divider",
                   }}
@@ -62,7 +67,7 @@ export function Skills() {
                       sx={{
                         fontFamily: display,
                         fontWeight: 700,
-                        fontSize: { xs: "0.98rem", md: "1.06rem" },
+                        fontSize: { xs: "0.9rem", sm: "0.98rem", md: "1.06rem" },
                         letterSpacing: "-0.01em",
                         lineHeight: 1.45,
                       }}
@@ -71,37 +76,26 @@ export function Skills() {
                         <Fragment key={skill}>
                           <Box component="span" sx={{ whiteSpace: "nowrap" }}>
                             {skill}
-                          </Box>
-                          {i < group.skills.length - 1 && (
-                            <>
-                              {" "}
-                              <Box
-                                component="span"
-                                aria-hidden="true"
-                                sx={{
-                                  color: "primary.main",
-                                  opacity: 0.5,
-                                  mx: 0.5,
-                                }}
-                              >
-                                /
-                              </Box>{" "}
-                            </>
-                          )}
+                            {i < group.skills.length - 1 && (
+                              <>
+                                {" "}
+                                <Box
+                                  component="span"
+                                  aria-hidden="true"
+                                  sx={{
+                                    color: "primary.main",
+                                    opacity: 0.5,
+                                    mx: 0.5,
+                                  }}
+                                >
+                                  /
+                                </Box>
+                              </>
+                            )}
+                          </Box>{" "}
                         </Fragment>
                       ))}
                     </Typography>
-                    {places.length > 0 && (
-                      <Typography
-                        sx={{
-                          mt: 0.25,
-                          color: "text.secondary",
-                          fontSize: "0.76rem",
-                        }}
-                      >
-                        Used at {places.join(", ")}
-                      </Typography>
-                    )}
                   </Box>
                 </Box>
               );
@@ -110,6 +104,7 @@ export function Skills() {
 
           <Typography
             sx={{
+              ...phoneHidden(),
               mt: 2,
               color: "text.secondary",
               fontSize: "0.8rem",
@@ -117,9 +112,10 @@ export function Skills() {
             }}
           >
             <Box component="span" sx={{ color: "text.primary", fontWeight: 700 }}>
-              Also worked with:{" "}
+              Also:{" "}
             </Box>
-            {secondarySkills.join(" · ")}
+            {/* A short taste of the wider toolbox instead of a 26-item wall of text. */}
+            {secondarySkills.slice(0, 6).join(" · ")}
           </Typography>
         </Box>
 
@@ -139,7 +135,7 @@ export function Skills() {
             <Box
               key={item.school}
               sx={{
-                py: 1.4,
+                py: { xs: 1, sm: 1.4 },
                 borderBottom: "1px solid",
                 borderColor: "divider",
               }}

@@ -35,4 +35,10 @@ export const skillColors: Record<string, string> = {
   Angular: "#DD0031",
   Redis: "#DC382D",
   Prometheus: "#E6522C",
+  "Tailwind CSS": "#06B6D4",
+  "shadcn/ui": "#18181B",
+  "React Flow": "#FF0072",
+  EKS: "#FF9900",
+  Recharts: "#8884D8",
+  WebSockets: "#2F6E9E",
 };

@@ -1,69 +1,79 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
+import { alpha } from "@mui/material/styles";
 import { RobotIcon, ServerIcon, WindowIcon, CloudIcon, IconWash, type WashTint } from "./SketchIcons";
 import { services } from "../data/cv";
 import { Section } from "./Section";
+import { colors, fonts, shortPhone } from "../theme";
 
 const SERVICE_ICONS = [RobotIcon, ServerIcon, WindowIcon, CloudIcon];
 // Each service gets a wash from the painting: sunlit peach, sky, foliage, sky.
 const SERVICE_TINTS: WashTint[] = ["peach", "sky", "leaf", "sky"];
 
+// Four equal paper cards: icon, title, one outcome line, three tags. Nothing else.
+// Hover lifts the card and tilts the icon (transform-only).
+const gridSx = {
+  display: "grid",
+  gridTemplateColumns: { xs: "minmax(0, 1fr)", sm: "repeat(2, minmax(0, 1fr))", md: "repeat(4, minmax(0, 1fr))" },
+  gap: { xs: 1.25, sm: 2 },
+} as const;
+
+const cardSx = {
+  position: "relative",
+  p: { xs: 1.75, md: 2.5 },
+  bgcolor: alpha(colors.bgRaised, 0.7),
+  border: `1px solid ${colors.line}`,
+  borderRadius: "18px",
+  // Phones: icon beside the text in a compact row.
+  display: { xs: "grid", sm: "block" },
+  gridTemplateColumns: "44px minmax(0, 1fr)",
+  columnGap: 1.75,
+  alignItems: "start",
+  transition: "transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease",
+  "& .wash": { transition: "transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)" },
+  "@media (hover: hover)": {
+    "&:hover": { transform: "translateY(-4px)", borderColor: alpha(colors.accentMuted, 0.7), boxShadow: `0 22px 40px -26px ${alpha(colors.navy, 0.45)}` },
+    "&:hover .wash": { transform: "rotate(-8deg) scale(1.06)" },
+  },
+  [shortPhone]: { py: 1.25 },
+} as const;
+
+const tagSx = {
+  display: "inline-block",
+  px: 1,
+  py: "2px",
+  borderRadius: 999,
+  bgcolor: alpha(colors.navy, 0.045),
+  color: "text.secondary",
+  fontSize: "0.72rem",
+  fontWeight: 600,
+  whiteSpace: "nowrap",
+} as const;
+
 export function Services() {
-  const [featured, ...rest] = services;
-  const FeaturedIcon = SERVICE_ICONS[0];
-
   return (
-    <Section
-      id="services"
-      index={1}
-      title="What I Can Build for You"
-      intro="I work across product development, backend engineering and automation to turn business workflows into reliable software."
-    >
-      <Box
-        sx={{
-          p: { xs: 2, md: 2.25 },
-          border: "1px solid",
-          borderColor: "divider",
-          borderTop: "3px solid",
-          borderTopColor: "primary.main",
-        }}
-      >
-        <Stack direction={{ xs: "column", sm: "row" }} spacing={{ xs: 1, sm: 2.5 }} sx={{ alignItems: { sm: "center" } }}>
-          <IconWash tint={SERVICE_TINTS[0]} size={54}>
-            <FeaturedIcon sx={{ fontSize: 30 }} />
-          </IconWash>
-          <Box>
-            <Typography component="h3" sx={{ fontWeight: 750, fontSize: { xs: "1.05rem", md: "1.15rem" }, letterSpacing: "-0.01em" }}>
-              {featured.title}
-            </Typography>
-            <Typography sx={{ mt: 0.5, color: "text.secondary", lineHeight: 1.5, fontSize: "0.88rem", maxWidth: 560 }}>
-              {featured.description}
-            </Typography>
-          </Box>
-        </Stack>
-        <Typography sx={{ mt: 1.25, color: "text.secondary", opacity: 0.75, lineHeight: 1.5, fontSize: "0.78rem" }}>
-          {featured.examples.join(" · ")}
-        </Typography>
-      </Box>
-
-      <Box sx={{ mt: 2, display: "grid", gridTemplateColumns: { xs: "1fr", sm: "repeat(3, minmax(0, 1fr))" }, gap: 2 }}>
-        {rest.map((service, index) => {
-          const Icon = SERVICE_ICONS[index + 1];
+    <Section id="services" index={1} title="What I Can Build for You" intro="Software that removes busywork and holds up in production.">
+      <Box sx={gridSx}>
+        {services.map((service, index) => {
+          const Icon = SERVICE_ICONS[index];
           return (
-            <Box key={service.title} sx={{ p: { xs: 1.75, md: 2 }, border: "1px solid", borderColor: "divider" }}>
-              <IconWash tint={SERVICE_TINTS[index + 1]} size={42}>
-                <Icon sx={{ fontSize: 23 }} />
-              </IconWash>
-              <Typography component="h3" sx={{ mt: 0.75, fontWeight: 750, fontSize: "0.92rem", letterSpacing: "-0.01em" }}>
+            <Box key={service.title} sx={cardSx}>
+              <Box className="wash" sx={{ width: "fit-content", gridRow: { xs: "span 3", sm: "auto" } }}>
+                <IconWash tint={SERVICE_TINTS[index]} size={{ xs: 44, md: 52 }}>
+                  <Icon sx={{ fontSize: { xs: 24, md: 28 } }} />
+                </IconWash>
+              </Box>
+              <Typography component="h3" sx={{ mt: { xs: 0.25, sm: 1.5 }, fontFamily: fonts.display, fontWeight: 700, fontSize: { xs: "1.02rem", md: "1.12rem" }, letterSpacing: "-0.01em" }}>
                 {service.title}
               </Typography>
-              <Typography sx={{ mt: 0.5, color: "text.secondary", lineHeight: 1.5, fontSize: "0.82rem" }}>
-                {service.description}
-              </Typography>
-              <Typography sx={{ mt: 1, color: "text.secondary", opacity: 0.75, lineHeight: 1.4, fontSize: "0.74rem" }}>
-                {service.examples.slice(0, 3).join(" · ")}
-              </Typography>
+              <Typography sx={{ mt: 0.5, color: "text.secondary", lineHeight: 1.5, fontSize: { xs: "0.85rem", md: "0.88rem" } }}>{service.pitch}</Typography>
+              <Box component="ul" aria-label={`${service.title} examples`} sx={{ m: 0, mt: { xs: 1, sm: 1.5 }, p: 0, listStyle: "none", display: "flex", flexWrap: "wrap", gap: 0.6 }}>
+                {service.tags.map((tag) => (
+                  <Box component="li" key={tag} sx={tagSx}>
+                    {tag}
+                  </Box>
+                ))}
+              </Box>
             </Box>
           );
         })}

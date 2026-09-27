@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { colors, fonts } from "../theme";
+import { colors, fonts, shortPhone } from "../theme";
 
 type SectionProps = {
   id: string;
@@ -14,8 +14,9 @@ type SectionProps = {
 export function Section({ id, index, title, intro, children }: SectionProps) {
   return (
     <Box component="section" aria-labelledby={`${id}-heading`}>
-      <Box component="header" sx={{ mb: { xs: 3, md: 4.5 } }}>
-        <Box sx={{ display: "flex", alignItems: "baseline", gap: { xs: 1.5, md: 2.5 } }}>
+      {/* Phones: the header is centered like the home slide; lists below stay left-aligned for reading. */}
+      <Box component="header" sx={{ mb: { xs: 3, md: 4.5 }, textAlign: { xs: "center", sm: "left" }, [shortPhone]: { mb: 2 } }}>
+        <Box sx={{ display: "flex", justifyContent: { xs: "center", sm: "flex-start" }, alignItems: "baseline", gap: { xs: 1.5, md: 2.5 } }}>
           <Typography
             aria-hidden="true"
             sx={{
@@ -44,7 +45,7 @@ export function Section({ id, index, title, intro, children }: SectionProps) {
           </Typography>
         </Box>
         {intro && (
-          <Typography sx={{ mt: { xs: 1.25, md: 1.75 }, maxWidth: 640, color: "text.secondary", lineHeight: 1.6, fontSize: { xs: "0.9rem", md: "0.98rem" } }}>
+          <Typography sx={{ mt: { xs: 1.25, md: 1.75 }, mx: { xs: "auto", sm: 0 }, maxWidth: { xs: 360, sm: 640 }, color: "text.secondary", lineHeight: 1.6, fontSize: { xs: "0.9rem", md: "0.98rem" } }}>
             {intro}
           </Typography>
         )}
